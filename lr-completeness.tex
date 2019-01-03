@@ -113,6 +113,8 @@
 \newcommand{\tempctxv}{\tfont{[\empctx]_v}}
 \newcommand{\tejudg}[3]{\tfont{{#1} \vdash_e {#2} : {#3}}}
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\newcommand{\tepr}{\tfont{\te'}}
 \newcommand{\tgamma}{\tfont{\gamma}}
@@ -120,7 +122,9 @@
 \newcommand{\tciu}{\tfont{\cong^{\mathrm{ciu}}}}
 \newcommand{\tciujudg}[4]{\tfont{{#1} \vdash {#2}~\tciu~{#3}~:~{#4}}}
 \newcommand{\tE}{\tfont{E}}
+% (Evaluation) Context judgement
 \newcommand{\tEjudg}[2]{\tfont{\cdot \vdash \tE~:~(\cdot \rhd {#1}) \leadsto {#2}}}
+\newcommand{\tCjudg}[2]{\tfont{\cdot \vdash \tC~:~(\tGammaa_1 \rhd {#1}) \leadsto {#2}}}
 \newcommand{\tsigmapr}{\tfont{\tsigma'}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\tprove}[3]{\tfont{{#1}\vdash_e{#2}:{#3}}}
@@ -179,7 +183,7 @@ We show $\tctx \Rightarrow \tciu \Rightarrow \tlr$.
 \end{theorem}
 
 \begin{lemma}[$\tctx$ Congruence]\
-  If $\tctxjudg{\tGamma}{\te}{\tepr}{\tsigma}$ and $..$
+% If $\tctxjudg{\tGamma}{\te}{\tepr}{\tsigma}$
 \end{lemma}
 
 
