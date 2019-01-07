@@ -1,0 +1,901 @@
+\documentclass[preprint]{amsart}
+
+% The following \documentclass options may be useful:
+%
+% 10pt          To set in 10-point type instead of 9-point.
+% 11pt          To set in 11-point type instead of 9-point.
+% authoryear    To obtain author/year citation style instead of numeric.
+
+\usepackage{ifthen}
+\usepackage{enumerate}
+
+\usepackage{xspace}
+\usepackage{latexsym,amsmath,amssymb}
+\usepackage{amsthm}
+%\usepackage{epsfig}
+%\usepackage{math-cmds,math-envs}
+\usepackage{verbatim}
+%\usepackage{proof}
+\usepackage{code}
+\usepackage{color}
+\usepackage{graphics,graphicx}
+\usepackage{stmaryrd}
+\usepackage{amsbsy}
+\usepackage{upgreek}
+\usepackage{mathpartir}
+\usepackage{url}
+\usepackage{mathrsfs}
+
+%\usepackage{unlist}
+
+\usepackage{natbib}
+% \bibpunct{[}{]}{,}{n}{}{,}
+% \let\cite=\citep
+
+\input{inputs/defs}
+
+% \usepackage{bussproofs}
+% \usepackage{unixode}
+% \usepackage{xspace}
+
+\newcommand\sound{\operatorname{sound}}
+\newcommand\irred{\operatorname{irred}}
+\newcommand\ttif{\ensuremath{\mathbf{if}\;}}
+\newcommand\keyword[1]{\ensuremath{\mathbf{#1}\;}}
+\newcommand\CV{\keyword{CV}}
+% \newcommand\FTV{\keyword{FTV}}
+\newcommand\STLC{\keyword{STLC}}
+\newcommand\fold{\keyword{fold}}
+\newcommand\unfold{\keyword{unfold}}
+\newcommand\unit{\keyword{unit}}
+\newcommand\E{\keyword{E}}
+\newcommand\diverge{\keyword{diverge}}
+\newcommand\fix{\keyword{fix}}
+% \newcommand\FTV{\operatorname{FTV}}
+% \newcommand\dom{\operatorname{dom}}
+\newcommand\pack{\operatorname{pack}}
+\newcommand\unpack{\operatorname{unpack}}
+\newcommand\as{\operatorname{as}}
+\newcommand\val{\operatorname{val}}
+
+
+\renewcommand{\slang}{\sfont{\lambda^{1, b, \rightarrow}}}
+\newcommand{\stau}{\sfont{\uptau}}
+
+
+\newcommand{\ssigma}{\sfont{\upsigma}}
+\newcommand{\salpha}{\sfont{\upalpha}}
+\newcommand{\sdelta}{\sfont{\updelta}}
+\newcommand{\smu}{\sfont{\upmu}}
+\renewcommand{\stypr}{\sfont{\uptau'}}
+\renewcommand{\sb}{\sfont{b}}
+\newcommand{\ssf}{\sfont{f}}
+\renewcommand{\seif}[3]{\sfont{if~{#1}~{#2}~{#3}}}
+\renewcommand{\st}{\sfont{t}}
+\newcommand{\styunit}{\sfont{1}}
+\newcommand{\styphi}{\sfont{\upphi}}
+\newcommand{\sunit}{\sfont{()}}
+\newcommand{\sezero}{\sfont{e_0}}
+
+\newcommand{\sGamma}{\sfont{\Gamma}}
+\newcommand{\sempctx}{\sfont{[\empctx]}}
+\newcommand{\strue}{\sfont{t}}
+\newcommand{\sfalse}{\sfont{f}}
+\renewcommand{\fold}{\tfont{fold}}
+\renewcommand{\unfold}{\tfont{unfold}}
+\newcommand{\sctxeq}{\sfont{\approxeq^{ctx}}}
+\newcommand{\seq}{\sfont{=^{eq}}}
+\newcommand{\sejudg}[3]{\sfont{{#1} \vdash_e {#2} : {#3}}}
+
+\renewcommand{\tlang}{\tfont{\lambda^{1, b, \rightarrow, \mu, \circ, \bullet}}}
+\newcommand{\trho}{\tfont{\uprho}}
+\newcommand{\ttau}{\tfont{\uptau}}
+\renewcommand{\tdelta}{\tfont{\updelta}}
+\newcommand{\tsigma}{\tfont{\sigma}}
+\newcommand{\ttyunit}{\tfont{1}}
+\newcommand{\tb}{\tfont{b}}
+\renewcommand{\talpha}{\tfont{\upalpha}}
+\newcommand{\tmu}{\tfont{\upmu}}
+\newcommand{\trec}[1]{\tfont{\upmu \upalpha.{#1}}}
+\newcommand{\tcomp}[2]{\tfont{E^{#1}{#2}}}
+\newcommand{\tcir}{\tfont{\circ}}
+\newcommand{\tbul}{\tfont{\bullet}}
+\newcommand{\tezero}{\tfont{e_0}}
+\newcommand{\ttrue}{\tfont{t}}
+\newcommand{\tfalse}{\tfont{f}}
+\newcommand{\tunit}{\tfont{()}}
+\renewcommand{\teif}[3]{\tfont{if~{#1}~{#2}~{#3}}}
+\renewcommand{\tefun}[3]{\tfont{\lambda{#1}:{#2}.~{#3}}}
+\newcommand{\tGamma}{\tfont{\Gamma}}
+
+\newcommand{\tDelta}{\tfont{\Delta}}
+\newcommand{\tempctx}{\tfont{[\empctx]}}
+\newcommand{\tempctxv}{\tfont{[\empctx]_v}}
+\newcommand{\tejudg}[3]{\tfont{{#1} \vdash_e {#2} : {#3}}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\tepr}{\tfont{\te'}}
+\newcommand{\tgamma}{\tfont{\gamma}}
+\newcommand{\tctx}{\tfont{\cong^{\mathrm{ctx}}}}
+\newcommand{\tciu}{\tfont{\cong^{\mathrm{ciu}}}}
+\newcommand{\tciujudg}[4]{\tfont{{#1} \vdash {#2}~\tciu~{#3}~:~{#4}}}
+\newcommand{\tE}{\tfont{E}}
+% (Evaluation) Context judgement
+\newcommand{\tEjudg}[2]{\tfont{\cdot \vdash \tE~:~(\cdot \rhd {#1}) \leadsto {#2}}}
+\newcommand{\tCjudg}[2]{\tfont{\cdot \vdash \tC~:~(\tGammaa_1 \rhd {#1}) \leadsto {#2}}}
+\newcommand{\tsigmapr}{\tfont{\tsigma'}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\tprove}[3]{\tfont{{#1}\vdash_e{#2}:{#3}}}
+\newcommand{\tprovv}[3]{\tfont{{#1}\vdash_v{#2}:{#3}}}
+\newcommand{\trel}[5]{\tfont{{#1}\vdash_v{#2} \simeq^{#3} {#4}:{#5}}}
+\newcommand{\dprov}[2]{\tfont{{#1}\vdash{#2}}}
+\newcommand{\tsub}[2]{\tfont{{#1}<:{#2}}}
+\newcommand{\C}{\tfont{C}}
+\newcommand{\Cv}{\tfont{C_v}}
+
+\newcommand{\tctxeq}{\tfont{\approxeq^{ctx}}}
+\newcommand{\tlr}{\tfont{\simeq^{lr}}}
+
+
+
+\usepackage[yyyymmdd,hhmmss]{datetime}
+\usepackage{background}
+\backgroundsetup{
+  position=current page.east,
+  angle=-90,
+  nodeanchor=east,
+  vshift=-1cm,
+  hshift=8cm,
+  opacity=1,
+  scale=1,
+  contents={\textcolor{gray!80}{WORK IN PROGRESS.  DO NOT DISTRIBUTE. (compiled on \today\ at \currenttime)}}
+}
+
+
+
+\begin{document}
+\title{}
+\author{}
+% \url{shin.hy@husky.neu.edu}\\
+% {\small Based on the draft by Daniel Patterson url :
+% \url{https://github.ccs.neu.edu/dbp/fabsterm}\\
+% and the technical report by Amal Ahmed url:
+% \url{http://www.ccs.neu.edu/home/amal/papers/lr-recquant-techrpt.pdf}}
+
+
+\date{\today}
+
+\maketitle
+
+\begin{definition}[ciu Equivalence]\
+  Let $\tejudg{\tGamma}{\te}{\tsigma}$ and $\tejudg{\tGamma}{\tepr}{\tsigma}$.\\
+  $\tciujudg{\tGamma}{\te}{\tepr}{\tsigma}$ if
+%  \begin{align*}
+    $\forall \tgamma, \tE, \tsigmapr$ such that $\tfont{\cdot \vdash \tgamma~:~\tGamma}$ and  $\tEjudg{\tsigma}{\tsigma'}$.\\
+    $\tE[\tgamma(\te)] \Downarrow \Rightarrow \tE[\tgamma(\tepr)] \Downarrow$.
+%  \end{align*}
+\end{definition}
+
+\begin{theorem}[$\tlr$ Completeness with Respect to $\tctx$]\
+We show $\tctx \Rightarrow \tciu \Rightarrow \tlr$.
+\end{theorem}
+
+\begin{lemma}[$\tctx$ Congruence]\
+% If $\tctxjudg{\tGamma}{\te}{\tepr}{\tsigma}$
+\end{lemma}
+
+
+\end{document}
+
+\subsection{Target Language $\tlang$}
+The target language is more interesting. Its types are split into value, $\ttau$, and computation types, $\tsigma$. The computation types are equipped with syntactic modality indicating purity, $\tcir$, and impurity, $\tbul$. A pure compuation is one that is guaranteed to terminate while an impure computation may or may not terminate. Because of this inclusive behavior, a pure type is a subtype of an impure type and $\tlang$ has the following typing rules:
+\begin{gather*}
+  \inferrule
+  {\tprovv{\tGamma}{\tv}{\ttau}}
+  {\tprove{\tGamma}{\tv}{\tcomp{\tcir}{\ttau}}}
+  \qquad
+  \inferrule
+  {\tprove{\tGamma}{\te}{\tcomp{\tcir}{\ttau}}}
+  {\tprove{\tGamma}{\te}{\tcomp{\tbul}{\ttau}}}
+\end{gather*}
+Note that the inversion lemma works on the first rule, but not the second.
+\subsubsection{Contexts and Contextual Equivalence $\tctxeq$}\label{context-t}
+\subsubsection{Logical relation $\tlr$}
+\subsubsection{$\tctxeq$ sound and complete w.r.t $\tlr$}
+\subsection{Translation}
+
+
+
+
+
+
+
+\subsection{A fully abstract compiler}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                             END DOCUMENT                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+We show a fully abstract compiler from \(\lambda^{1,b,\rightarrow}\) to
+\(\lambda^{1,b,\rightarrow,\circ,\bullet}\).
+
+\textbf{Theorem{[}\(\exists\) fully abstract compiler from
+\(\lambda^{1,b,\rightarrow}\) to
+\(\lambda^{1,b,\rightarrow, \mu, \circ, \bullet}\){]}}
+
+\emph{Proof outline}\\
+\({[} (\lambda\^{}\{1,b,\rightarrow\}, \cong\^{}\{ctx\}\_s)
+\Leftrightarrow (\lambda\^{}\{1,b,\rightarrow\}, =) {]} {[}
+\qquad \qquad \qquad \qquad \qquad \downarrow \qquad \searrow
+{]} {[}
+\qquad \qquad \qquad \qquad \qquad \qquad \downarrow \qquad \qquad \approx\textsuperscript{\{lr\}
+{]} {[} \qquad \qquad \qquad \qquad \qquad \downarrow \qquad \swarrow
+{]} {[}
+\qquad \qquad \qquad \qquad (\lambda}\{1,b,\rightarrow,\mu,\circ,\bullet\},
+\cong\^{}\{ctx\}\_t) {]}\)
+
+In \(\lambda^{1,b,\rightarrow}\), contextual equivalence is equivalent
+to \(\beta \eta\) equivalence.\emph{{[}Scherer thesis, Statman 83{]}}
+Our proof uses this result to show a contextual equivalence preserving
+compiler by showing a \(\beta \eta\) equivalence preserving compiler.
+
+Thus, we will shift our focus from the source language
+\(\lambda^{1,b,\rightarrow}\) with contextual equivalence to
+\(\lambda^{1,b,\rightarrow}\) with provable equality.
+
+In the latter system, we write the equality between two terms as
+
+{[} \Gamma \vdash e = e' :\sigma {]}
+
+where we assume that \(e\) and \(e'\) has the type \(\sigma\) in context
+\(\Gamma\), and we can prove this using a set of axioms and inference
+rules. The set of axioms and inference rules also makes provable
+equality an equivalence relation and a congruence with respect to the
+term-formation operations.
+
+\begin{itemize}
+\item
+  \(\Gamma \vdash e = e : \sigma \qquad \qquad \qquad \qquad \qquad \qquad\)
+  (reflexivity)
+\item
+  \(\frac{\Gamma \vdash e = e' : \sigma}{\Gamma \vdash e' = e : \sigma} \qquad \qquad \qquad \qquad \qquad \qquad \quad\)
+  (symmetry)
+\item
+  \(\frac{\Gamma \vdash e = e' : \sigma \quad \Gamma \vdash e' = e'' : \sigma}{\Gamma \vdash e = e'' : \sigma} \qquad \qquad \qquad \qquad\)
+  (transitivity)
+\item
+  \(\frac{\Gamma,x:\tau \vdash e = e' : \sigma}{\Gamma \vdash \lambda x:\tau.e = \lambda x:\tau.e' : \tau \rightarrow \sigma} \qquad \qquad \qquad \qquad\)
+  (congruence-abs)
+\item
+  \(\frac{\Gamma \vdash e_f = e_f' : \tau \rightarrow \sigma \quad \Gamma \vdash e_a = e_a' : \tau}{\Gamma \vdash e_f e_a = e_f' e_a' : \sigma} \qquad \quad \qquad\)
+  (congruence-app)
+\end{itemize}
+
+There are three more axioms: \(\alpha, \beta\), and \(\eta\).
+\( \alpha\) equality describes how to construct two equivalent terms by
+renaming bound variables. \(\beta\) and \(\eta\) equality specify the
+introduction and elimination rules are inverses of each
+other.{[}Mitchell{]}
+
+\(\Gamma \vdash \lambda x:\tau.e = \lambda y:\tau.[y/x]e : \tau \rightarrow \sigma\),
+provided
+\(y \notin FV(M) \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (\alpha)\)
+
+\(\Gamma \vdash (\lambda x:\tau.e)e' = e[e'/x] :\sigma \qquad \qquad \quad \quad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (\beta)\)
+
+\(\Gamma \vdash \lambda x:\tau.(e x) = e : \tau \rightarrow \sigma\),
+provided
+\(x \notin FV(e) \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (\eta)\)
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\section{Logical Relation}\label{logical-relation}
+
+\(\Vrel_k[1] \qquad = \{((), ())\}\)\\
+\(\mathcal{V}_k[b] \qquad = \{(t,t), (b,b)\}\)\\
+\(\mathcal{V}_k[\mu \alpha.\tau] \qquad = \{(\fold v,\fold v') \mid \cdot \vdash \fold v' : \rho^{syn}(\mu \alpha.\tau) \wedge \forall j < k. (v,v') \in \mathcal{V}_j[\tau[\mu \alpha.\tau/\alpha]]\}\)\\
+\(\mathcal{V}_k[\tau \rightarrow E^\circ \tau'] = \{(\lambda x:\tau.e, \lambda x:\tau.e') \mid \cdot \vdash \lambda x:\tau.e' : \rho^{syn}(\tau \rightarrow E^\circ \tau') \wedge  \forall j < k.\forall(v,v') \in \mathcal{V}_j[\tau].\)\\
+\(\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (e[v/x], e'[v'/x]) \in \mathcal{E}_j[E^\circ \tau']\}\)\\
+\(\mathcal{V}_k[\tau \rightarrow E^\bullet \tau'] = \{(\lambda x:\tau.e, \lambda x:\tau.e') \mid \cdot \vdash \lambda x:\tau.e' : \rho^{syn}(\tau \rightarrow E^\bullet \tau') \wedge \forall j < k.\forall(v,v') \in \mathcal{V}_j[\tau].\)\\
+\(\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (e[v/x], e'[v'/x]) \in \mathcal{E}_j[E^\bullet \tau']\}\)
+
+\(\mathcal{E}_k[E^\circ \tau] \qquad = \{(e, e') \mid \exists j \leq k, e_f, e_f'. e \mapsto^j e_f \wedge e' \mapsto^* e_f' \wedge (e_f, e_f') \in \mathcal{V}_{k-j}[\tau]\}\)\\
+\(\mathcal{E}_k[E^\bullet \tau] \qquad = \{(e, e') \mid \forall j < k, e_f. e \mapsto^j e_f \wedge \irred(e_f) \Rightarrow \exists e_f'. e' \mapsto^* e_f' \wedge (e_f, e_f') \in \mathcal{V}_{k-j}[\tau]\}\)
+
+\(\mathcal{G}_k[\cdot] \qquad \qquad = \{(\phi, \phi)\}\)\\
+\(\mathcal{G}_k[\Gamma,x:\tau] \quad = \{(\gamma[x \mapsto v], \gamma[x \mapsto v']) \mid (\gamma, \gamma') \in \mathcal{G}_k[\Gamma] \wedge (v,v') \in \mathcal{V}_k[\tau]\}\)
+
+\(\Gamma \vdash e \leq_e e' : E^\delta \tau \quad \overset{\text{def}}{=} \quad \Gamma \vdash e:E^\delta  \wedge \Gamma \vdash e':E^\delta \tau \wedge \forall k \geq 0,\gamma,\gamma'. (\gamma,\gamma') \in \mathcal{G}_k[\Gamma] \Rightarrow (\gamma(e), \gamma'(e')) \in \mathcal{E}_k[E^\delta \tau]\)\\
+\(\Gamma \vdash e \simeq^{lr}_e e' : E^\delta \tau \quad \overset{\text{def}}{=} \quad \Gamma \vdash e \leq e':E^\delta \tau \wedge \Gamma \vdash e' \leq e:E^\delta \tau\)
+
+\(\Gamma \vdash v \leq_v v' : \tau \quad \overset{\text{def}}{=} \quad \Gamma \vdash v: \tau \wedge \Gamma \vdash v':\tau \wedge \forall k \geq 0,\gamma,\gamma'. (\gamma,\gamma') \in \mathcal{G}_k[\Gamma] \Rightarrow (\gamma(v), \gamma'(v')) \in \mathcal{V}_k[\tau]\)\\
+\(\Gamma \vdash v \simeq^{lr}_v v' : \tau \quad \overset{\text{def}}{=} \quad \Gamma \vdash v \leq_v v':\tau \wedge \Gamma \vdash v' \leq_v v:\tau\)
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsubsection{Lemma {[}Values are
+well-typed{]}}\label{lemma-values-are-well-typed}
+
+If \((v,v') \in \mathcal{V}_k[\tau]\), then \(\Gamma \vdash v' : \tau\).
+
+\emph{Proof.} By induction on \( \Delta \vdash \tau\).
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsubsection{Lemma {[}Closure under decreasing
+step-index{]}}\label{lemma-closure-under-decreasing-step-index}
+
+If \((v,v') \in \mathcal{V}_k[\tau]\) and \(j \leq k\), then
+\((v, v') \in \mathcal{V}_j[\tau]\).
+
+\emph{Proof.} By induction on \( \Delta \vdash \tau\).
+
+We are done with the value cases. Now we prove the computation cases.
+
+\subsubsection{\texorpdfstring{Lemma
+{[}Compatibility-\(\ttif\){]}}{Lemma {[}Compatibility-\textbackslash{}if{]}}}\label{lemma-compatibility-if}
+
+\(\frac{\Gamma \vdash e_b\leq_e e_b' : E^{\delta_b} b \qquad \Gamma \vdash e_t \leq_e e_t' : E^{\delta_t} \tau \qquad \Gamma \vdash e_f \leq_e e_f' : E^{\delta_f} \tau}{\Gamma \vdash if e_b e_t e_f \leq_e if e_b' e_t' e_f' : E^{\delta_b \wedge \delta_t \wedge \delta_f} \tau}\)
+
+\emph{Proof.}\\
+There are two cases to prove:
+\(\delta_b \wedge \delta_t \wedge \delta_f = \circ\) and
+\(\delta_b \wedge \delta_t \wedge \delta_f = \bullet\).\\
+We prove the pure case first and use the {[}Pure implies impure{]} lemma
+to prove the impure case. + \textbf{Case
+\(\delta_b \wedge \delta_t \wedge \delta_f = \circ \):}\\
+In this case it must be true that
+\(\delta_b = \delta_t = \delta_f = \circ\).\\
+The proof is in two parts.\\
+1. We are required to show
+\( \Gamma \vdash \ttif e_b e_t e_f : E^\circ b\) and
+\( \Gamma \vdash \ttif e_b' e_t' e_f' : E^\circ b\),\\
+which follow respectively from\\
+- \(\Gamma \vdash e_b : E^\circ b,  \Gamma \vdash e_t : E^\circ \tau,\)
+and \( \Gamma \vdash e_f : E^\circ \tau\) and\\
+- \(\Gamma \vdash e_b' : E^\circ b, \Gamma \vdash e_t' : E^\circ \tau,\)
+and \( \Gamma \vdash e_f' : E^\circ \tau\), both of which follow from\\
++
+\(\Gamma \vdash e_b \leq_e e_b' : E^\circ b, \Gamma \vdash e_t \leq_e e_t' : E^\circ \tau\),
+and \( \Gamma \vdash e_f \leq_e e_f' : E^\circ \tau\)\\
+2. Consider arbitrary \(k, \gamma\), and \(\gamma'\) such that\\
+- \(k \geq 0\)\\
+- \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+
+    We need to show $(\gamma(\ttif e_b e_t e_f), \gamma'(\ttif e_b' e_t' e_f')) \in \mathcal{E}_k[E^\circ \tau]$.
+   Note that $(\gamma(\ttif e_b e_t e_f), \gamma'(\ttif e_b' e_t' e_f')) \equiv (\ttif \gamma(e_b) \gamma(e_t) \gamma(e_f), \ttif \gamma'(e_b') \gamma'(e_t') \gamma'(e_f')))$.
+   Hence, it suffices to show $(\ttif \gamma(e_b) \gamma(e_t) \gamma(e_f), \ttif \gamma'(e_b') \gamma'(e_t') \gamma'(e_f'))) \in \mathcal{E}_k[E^\circ \tau]$.
+   In order to do so, we need to show there exist $j, e_f$ and $e_f'$ such that
+    \item $j \leq k$
+    \item $\ttif \gamma(e_b) \gamma(e_t) \gamma(e_f)) \mapsto^j e_f$
+    \item $\ttif \gamma'(e_b') \gamma'(e_t') \gamma'(e_f')) \mapsto^* e_f'$
+    \item $(e_f, e_f') \in \mathcal{V}_{k-j}[\tau]$
+
+   By the operational semantics, we know $\gamma(e_b)$ must reduce first.
+   So instantiate $\Gamma \vdash e_b \leq_e e_b' : E^\circ b$ with $k, \gamma$ and $\gamma'$.
+   Note that
+    \item $k \geq 0$
+    \item $(\gamma, \gamma') \in \mathcal{G}_k[\Gamma]$
+
+   Thus, we get $(\gamma(e_b), \gamma'(e_b)) \in \mathcal{E}_k[E^\circ b]$, which implies $\exists j_b, e_{f_b}$, and $e_{f_b}'$ such that
+   \item $j_b \leq k$
+   \item $\gamma(e_b) \mapsto^{j_b} e_{f_b}$
+   \item $\gamma'(e_b) \mapsto^* e_{f_b}'$
+   \item $(e_{f_b}, e_{f_b}') \in \mathcal{V}_{k-j_b}[b]$
+
+   Hence, it must be either $e_{f_b} = e_{f_b}'= t$ or $e_{f_b} = e_{f_b}'= f$.
+
+   - **Case $e_{f_b} = e_{f_b}'= t $:**
+     Note $\gamma(\ttif e_b e_t e_f) \equiv \ttif \gamma(e_b) \gamma(e_t) \gamma(e_f)$
+     $\qquad \qquad \qquad \qquad \mapsto^{j_0} \ttif e_{f_b} \gamma(e_t) \gamma(e_f)$
+     $\qquad \qquad \qquad \qquad \equiv \ttif t \gamma(e_t) \gamma(e_f)$
+     $\qquad \qquad \qquad \qquad \mapsto^1 \gamma(e_t)$
+     $\qquad \qquad \qquad \qquad \mapsto^{j_t} e_{f_1}$
+     where $e_{f_1} = e_f'$ and $j= j_b + 1 + j_t$.
+     Instantiate $\Gamma \vdash e_t \leq_e e_t' : E^\circ \tau$ with $k-j_b-1$, $\gamma$, and $\gamma'$.
+     Note that
+     \item $k-j_b-1 \geq 0$  from $j_b < j \leq k$.
+     \item $(\gamma, \gamma') \in \mathcal{G}_{k-j_b-1}[\Gamma]$ by the [Context Downward Closed] Lemma applied to $(\gamma, \gamma') \in \mathcal{G}_k[\Gamma]$
+
+     Hence, $(\gamma(e_t), \gamma'(e_t')) \in \mathcal{E}_{k-j_b-1}[E^\circ \tau]$, which implies $\exists j_t, e_{f_t}$, and $e_{f_t}'$ such that
+     \item $j_t \leq k-j_b-1$
+     \item $\gamma(e_t) \mapsto^{j_t} e_{f_t}$
+     \item $\gamma'(e_t') \mapsto^* e_{f_t}'$
+     \item $(e_{f_t}, e_{f_t}') \in \mathcal{V}_{k-j_b-1-j_t}[\tau]$
+
+     Let $e_f = e_{f_t}$, and $e_f' = e_{f_t}'$.
+     We must show
+     \item $j \leq k$, which follows from  $j_b+1+j_t \leq k$
+     \item $(e_f, e_f') \in \mathcal{V}_{k-j}[\tau]$, which follows from
+       - $(e_{f_t}, e_{f_t}') \in \mathcal{V}_{k-j_b-1-j_t}[\tau]$
+
+   - **Case $e_{f_b} = e_{f_b}'= f $:**
+     Note $\gamma(\ttif e_b e_t e_f) \equiv \ttif \gamma(e_b) \gamma(e_t) \gamma(e_f)$
+     $\qquad \qquad \qquad \qquad \mapsto^{j_b} \ttif e_{f_b} \gamma(e_t) \gamma(e_f)$
+     $\qquad \qquad \qquad \qquad \equiv \ttif f \gamma(e_t) \gamma(e_f)$
+     $\qquad \qquad \qquad \qquad \mapsto^1 \gamma(e_f)$
+     $\qquad \qquad \qquad \qquad \mapsto^{j_f} \gamma(e_f)$
+     where $e_{f_1} = e_f'$ and $j= j_b + 1 + j_f$.
+     Instantiate $\Gamma \vdash e_f \leq_e e_f' : E^\circ \tau$ with $k-j_b-1$, $\gamma$, and $\gamma'$.
+     Note that
+      \item $k-j_b-1 \geq 0$ from $j_b < j \leq k$
+      \item $(\gamma, \gamma') \in \mathcal{G}_{k-j_b-1}[\Gamma]$ by the [Context Downward Closed] Lemma applied to $(\gamma, \gamma') \in \mathcal{G}_k[\Gamma]$
+
+     Hence, $(\gamma(e_f), \gamma'(e_f')) \in \mathcal{E}_{k-j_b-1}[E^\circ \tau]$, which implies $\exists j_f, e_{f_f}$, and $e_{f_f}'$ such that
+      \item $j_f \leq k-j_b-1$
+      \item $\gamma(e_f) \mapsto^j_f e_{f_f}$
+      \item $\gamma'(e_f') \mapsto^* e_{f_f}'$
+      \item $(e_{f_f}, e_{f_f}') \in \mathcal{V}_{k-j_b-1-j_f}[\tau]$
+
+     Let $j = j_b+1+j_f$, $e_f = e_{f_f}$, and $e_f' = e_{f_f}'$.
+     We must show
+      \item $j \leq k$, which follows from  $j_b+1+j_f \leq k$
+      \item $(e_f, e_f') \in \mathcal{V}_{k-j}[\tau]$, which follows from
+        - $(e_{f_f}, e_{f_f}') \in \mathcal{V}_{k-j_b-1-j_f}[\tau]$
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Case
+  \(\delta_b \wedge \delta_t \wedge \delta_f = \bullet :\)}\\
+  By the {[}Pure implies impure{]} Lemma applied to the pure case.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsubsection{Lemma
+{[}Compatibility-App{]}}\label{lemma-compatibility-app}
+
+\(\frac{\Gamma \vdash e_f \leq_e e_f' : E^{\delta_f} (\tau \rightarrow E^{\delta_r}\tau') \qquad \Gamma \vdash e_a  \leq_e e_a' : E^{\delta_a} \tau}{\Gamma \vdash e_fe_a  \leq_e e_f'e_a' : E^{\delta_f \wedge \delta_r \wedge \delta_a} \tau'}\)
+
+\emph{Proof}.\\
+There are two cases to prove:
+\(\delta_f \wedge \delta_r \wedge \delta_a = \circ\) and
+\(\delta_f \wedge \delta_r \wedge \delta_a = \bullet\).\\
+We prove the pure case first and use the {[}Pure implies impure{]} lemma
+to prove the impure case. + \textbf{Case
+\(\delta_f \wedge \delta_r \wedge \delta_a = \circ \):}\\
+In this case it must be true that
+\(\delta_f = \delta_r = \delta_a = \circ\).\\
+The proof is in two parts.\\
+1. We are required to show \(\Gamma \vdash e_fe_a : E^\circ \tau'\) and
+\(\Gamma \vdash e_f'e_a' : E^\circ \tau'\) which follow respectively
+from\\
+- \(\Gamma \vdash e_f : E^\circ (\tau \rightarrow E^\circ \tau')\) and
+\(\Gamma \vdash e_a : E^\circ \tau\) -
+\(\Gamma \vdash e_f' : E^\circ (\tau \rightarrow E^\circ \tau')\) and
+\(\Gamma \vdash e_a' : E^\circ \tau\) + both of which follow from
+\(\Gamma \vdash e_f \leq_e e_f' : E^\circ (\tau \rightarrow E^\circ \tau')\)
+and \(\Gamma \vdash e_a \leq_e e_a' : E^\circ \tau\) 2. Consider
+arbitrary \(k, \gamma\), and \(\gamma'\) such that\\
+- \(k \geq 0\) - \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+
+  We are required to show $(\gamma(e_fe_a), \gamma'(e_f'e_a)) \in \mathcal{E}_k[E^\circ \tau']$.
+  Note that $(\gamma(e_fe_a), \gamma'(e_f'e_a)) \equiv (\gamma(e_f)\gamma(e_a), \gamma'(e_f')\gamma'(e_a'))$.
+  Hence, it suffices to show $(\gamma(e_f)\gamma(e_a), \gamma'(e_f')\gamma'(e_a')) \in \mathcal{E}_k[E^\circ \tau']$.
+  In order to do so, we need to show $\exists j, e_f$, and $e_f'$ such that
+   - $j \leq k$
+   - $\gamma(e_f)\gamma(e_a) \mapsto^j e_f$
+   - $\gamma'(e_f')\gamma'(e_a') \mapsto^* e_f'$
+   - $(e_f, e_f') \in \mathcal{V}_{k-j}[\tau']$
+
+  By the operational semantics, we know $\gamma(e_f)$ and $\gamma'(e_f')$ must reduce first.
+  So instantiate $\Gamma \vdash e_f \leq_e e_f' : E^\circ(\tau \rightarrow E^\circ \tau')$ with $k, \gamma$, and $\gamma'$.
+  Note that
+    - $k \geq 0$
+    - $(\gamma, \gamma') \in \mathcal{G}_k[\Gamma]$
+
+  Hence, we have $(\gamma(e_f), \gamma'(e_f')) \in \mathcal{E}_k[E^\circ(\tau \rightarrow E^\circ \tau')]$, which implies $\exists j_f,e_{f_f},$ and $e_{f_f}'$ such that
+    - $j_f \leq k$
+    - $\gamma(e_f) \mapsto^{j_f} e_{f_f}$
+    - $\gamma'(e_f') \mapsto^* e_{f_f}'$
+    - $(e_{f_f}, e_{f_f}') \in \mathcal{V}_{k-j_f}[\tau \rightarrow E^\circ \tau']$
+
+  For convenience, let $e_{f_f} = \lambda x:\tau.e$ and $e_{f_f}' = \lambda x:\tau.e'$ for some $e$ and $e'$.
+  By the operational semantics, we know $\gamma(e_a)$ and $\gamma'(e_a')$ must reduce next.
+  So instantiate $\Gamma \vdash e_a \leq_e e_a' : E^\circ \tau$ with $k-j_f, \gamma$, and $\gamma'$.
+  Note that
+   - $k-j_f \geq 0$ from $j_f \leq k$
+   - $(\gamma, \gamma') \in \mathcal{G}_{k-j_f}[\Gamma]$ by the [Context downward closed] Lemma applied to $(\gamma, \gamma') \in \mathcal{G}_k[\Gamma]$
+
+  Hence, $(\gamma(e_a), \gamma'(e_a')) \in \mathcal{E}_{k-j_f}[\tau]$, which implies $\exists j_a, e_{f_a}$, and $e_{f_a}'$ such that
+    - $j_a \leq k-j_f$
+    - $\gamma(e_a) \mapsto^{j_a} e_{f_a}$
+    - $\gamma'(e_a') \mapsto^* e_{f_a}'$
+    - $(e_{f_a}, e_{f_a}') \in \mathcal{V}_{k-j_f-j_a}[\tau]$
+
+  For convenience, let $e_{f_a} = v_{f_a}$ and $e_{f_a}' = v_{f_a}'$.
+  Note that $\gamma(e_fe_a) \equiv \gamma(e_f)\gamma(e_a)$
+  $\qquad \qquad \qquad \quad\mapsto^{j_f} e_{f_f}\gamma(e_a)$
+    $\qquad \quad \qquad \qquad \equiv (\lambda x:\tau.e) \gamma(e_a)$
+    $\qquad \quad \qquad \qquad \mapsto^{j_a} (\lambda x:\tau.e) e_{f_a}$
+    $\qquad \quad \qquad \qquad \equiv (\lambda x:\tau.e) v_{f_a}$
+    $\qquad \quad \qquad \qquad \mapsto^1 e[v_{f_a}/x]$ by the operational semantics
+    $\qquad \quad \qquad \qquad \mapsto^{j_r} v_r$
+  where $j = j_f + j_a + 1 + j_r$ and $e_f = v_r$.
+  Similarly, $\gamma'(e_f'e_a') \equiv \gamma'(e_f')\gamma'(e_a')$
+    $\qquad \qquad \qquad \quad\mapsto^* e_{f_f}'\gamma'(e_a')$
+    $\qquad \qquad \qquad \quad \equiv (\lambda x:\tau.e') \gamma'(e_a')$
+    $\qquad \qquad \qquad \quad \mapsto^* (\lambda x:\tau.e') e_{f_a}'$
+    $\qquad \qquad \qquad \quad \equiv (\lambda x:\tau.e') v_{f_a}'$
+    $\qquad \qquad \qquad \quad \mapsto^1 e'[v_{f_a'}/x]$ by the operational semantics
+    $\qquad \qquad \qquad \quad \mapsto^* v_r'$
+ Instantiate $(\lambda x:\tau.e, \lambda x:\tau.e') \in \mathcal{V}_{k-j_f}[\tau \rightarrow E^\circ \tau']$ with $k-j_f-j_a-1$ and $(v_{f_a}, v_{f_a}') \in \mathcal{V}_{k-j_f-j_a-1}[\tau]$.
+ Then, we have $(e[v_{f_a}/x], e'[v_{f_a}'/x]) \in \mathcal{E}_{k-j_f-j_a-1}[E^\circ \tau']$, which implies $\exists j_r, e_{f_r}$, and $e_{f_r}'$ such that
+   - $j_r \leq k-j_f-j_a-1$
+   - $e[v_{f_a}/x] \mapsto^j_a e_{f_r}$
+   - $e'[v_{f_a}'/x] \mapsto^* e_{f_r}'$
+   - $(e_{f_r}, e_{f_r}') \in \mathcal{V}_{k-j_f-j_a-1-j_r}[\tau']$
+
+  Let $j=j_f+j_r+1+j_a$, $e_f = e_{f_r}$, and $e_f' = e_{f_r}'$.
+  Note that
+    - $j_f+j_r+1+j_a \leq k$
+    - $\gamma(e_fe_r) \mapsto^{j_f+j_a+1+j_r} e_{f_a}$
+    - $\gamma'(e_f'e_a') \mapsto^* e_{f_a}'$
+    - $(e_{f_a}, e_{f_a}') \in \mathcal{V}_{k-j_f-j_a-1-j_r}[\tau']$
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Case
+  \(\delta_f \wedge \delta_r \wedge \delta_a = \bullet :\)}\\
+  By the {[}Pure implies impure{]} Lemma applied to the pure case.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{Lemma
+{[}Compatibility-\(\fold e\){]}}{Lemma {[}Compatibility-\textbackslash{}fold\textasciitilde{}e{]}}}\label{lemma-compatibility-folde}
+
+\(\frac{\Gamma \vdash e \leq_e e' : E^\delta \tau[\mu \alpha.\tau/\alpha]}{\Gamma \vdash \fold e  \leq_e \fold e' : E^\delta \mu \alpha.\tau}\)
+
+\emph{Proof.}\\
+There are two cases to prove: \(\delta = \circ\) and
+\(\delta = \bullet\).\\
+We prove the pure case first and use the {[}Pure implies impure{]} lemma
+to prove the impure case.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Case \(\delta = \circ \):}\\
+  The proof is in two parts:\\
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  We are required to show
+  \( \Gamma \vdash \fold e : E^\circ \mu \alpha.\tau\) and
+  \( \Gamma \vdash \fold e' : E^\circ \mu \alpha.\tau\) which follow
+  respectively from
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(\Gamma \vdash e : E^\circ \tau[\mu \alpha.\tau/\alpha]\)
+  \item
+    \(\Gamma \vdash e' : E^\circ \tau[\mu \alpha.\tau/\alpha]\)\\
+    both of which follow from
+    \(\cdot \vdash e \leq_v e' : E^\circ \tau[\mu \alpha.\tau/\alpha]\)
+  \end{itemize}
+\item
+  Consider arbitrary \(k, \gamma, \gamma'\) such that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(k \geq 0\)
+  \item
+    \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+  \end{itemize}
+
+  We are required to show
+  \((\gamma(\fold e), \gamma'(\fold e')) \in \mathcal{E}_k[E^\circ \mu \alpha.\tau]\).\\
+  Note
+  \((\gamma(\fold e), \gamma'(\fold e')) \equiv (\fold \gamma (e), \fold \gamma'(e'))\).\\
+  Hence, it suffices to show
+  \((\fold \gamma(e), \fold \gamma'(e'))\in \mathcal{E}_k[E^\circ \mu \alpha.\tau]\).\\
+  In order to do so, we need to show \(\exists j, e_f\), and \(e_f'\)
+  such that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(j \leq k\)
+  \item
+    \(\fold \gamma(e) \mapsto^j e_f\)
+  \item
+    \(\fold \gamma'(e') \mapsto^* e_f'\)
+  \item
+    \((e_f, e_f') \in \mathcal{V}_{k-j}[\mu \alpha.\tau]\)
+  \end{itemize}
+
+  By the operational semantics, we know \(\gamma(e)\) must reduce
+  first.\\
+  Instantiate
+  \(\Gamma e \leq_e e' : E^\circ \tau[\mu \alpha.\tau/\alpha]\) with
+  \(k, \gamma\) and \(\gamma'\).\\
+  Note that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(k \geq 0\)
+  \item
+    \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+  \end{itemize}
+
+  Hence, we have
+  \((\gamma(e), \gamma'(e')) \in \mathcal{E}_k[E^\circ \tau[\mu \alpha.\tau/\alpha]]\).\\
+  It follows that there exists \(j_0, e_{f_0}\), and \(e_{f_0}'\) such
+  that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(j_0 \leq k\)
+  \item
+    \(\gamma(e) \mapsto^{j_0} e_{f_0}\)
+  \item
+    \(\gamma'(e') \mapsto^* e_{f_0}'\)
+  \item
+    \((e_{f_0}, e_{f_0}') \in \mathcal{V}_{k-j_0}[\tau[\mu \alpha.\tau/\alpha]]\)
+  \end{itemize}
+
+  For convenience, let \(e_{f_0} = v_0\) and \(e_{f_0}' = v_0'\).\\
+  Note that \(\gamma(\fold e) \equiv \fold \gamma(e)\)\\
+  \(\qquad \qquad \qquad \qquad \mapsto^j_0 \fold e_{f_0}\)\\
+  \(\qquad \qquad \qquad \qquad \equiv \fold v_0\)\\
+  \(\qquad \qquad \qquad \qquad \mapsto^{j-j_0} e_f\)\\
+  Since \(\fold v\) is a value, \(j=j_0\) and \(e_f=\fold v_0\).\\
+  Let \(e_f' = \fold v_0'\).\\
+  We are required to show
+  \((\fold v_0, \fold v_0') \in \mathcal{V}_{k-j}[\mu \alpha.\tau]\).\\
+  In order to do so, we need to show
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(\cdot \vdash \fold v_0': \mu \alpha.\tau\)
+
+    \begin{itemize}
+    \tightlist
+    \item
+      which follows from
+      \(\cdot \vdash v_0' : \tau[\mu \alpha.\tau/\alpha]\)
+    \item
+      which follows from
+      \((v_0,v_0') \in \mathcal{V}_{k-j}[\tau[\mu \alpha.\tau/\alpha]]\)
+    \end{itemize}
+  \item
+    Consider arbitrary \(i < k-j\).\\
+    We are required to show
+    \((v_0,v_0') \in \mathcal{V}_i[\tau[\mu \alpha.\tau/\alpha]]\),
+    which follows from the {[}Closure under decreasing step index{]}
+    lemma applied to
+    \((v_0,v_0') \in \mathcal{V}_{k-j}[\tau[\mu \alpha.\tau/\alpha]]\).
+  \end{itemize}
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Case \(\delta = \bullet :\)}\\
+  By the {[}Pure implies impure{]} lemma applied to the pure case.
+\end{itemize}
+
+\subsubsection{\texorpdfstring{Lemma
+{[}Compatibility-\(\unfold\){]}}{Lemma {[}Compatibility-\textbackslash{}unfold{]}}}\label{lemma-compatibility-unfold}
+
+\(\frac{\Gamma \vdash e \leq_e e' : E^\delta \mu \alpha.\tau}{\Gamma \vdash \unfold e  \leq_e \unfold e' : E^\bullet (\tau[\mu \alpha.\tau/\alpha])}\)
+
+\emph{Proof.}\\
+The proof is in two parts: 1. We are required to show
+\( \Gamma \vdash \unfold e : E^\bullet(\tau[\mu \alpha.\tau/\alpha])\)
+and
+\( \Gamma \vdash \unfold e' : E^\bullet(\tau[\mu \alpha.\tau/\alpha])\)
+which follow respectively from -
+\(\Gamma \vdash e : E^\delta \mu \alpha.\tau\) -
+\(\Gamma \vdash e' : E^\delta \mu \alpha.\tau\)\\
+both of which follow from
+\(\Gamma \vdash e \leq_e e' : E^\delta \mu \alpha.\tau\) 2. Consider
+arbitrary \(k, \gamma, \gamma'\) such that - \(k \geq 0\) -
+\((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+
+We are required to show
+\((\gamma(\unfold e), \gamma'(\unfold e')) \in \mathcal{E}_k[E^\bullet(\tau[\mu \alpha.\tau/\alpha])]\).\\
+Note that
+\((\gamma(\unfold e), \gamma'(\unfold e')) \equiv (\unfold \gamma (e), \unfold \gamma'(e'))\).\\
+Hence, it suffices to show
+\((\unfold \gamma (e), \unfold \gamma'(e')) \in \mathcal{E}_k[E^\bullet (\tau[\mu \alpha.\tau/\alpha])]\).\\
+Pick arbitrary \(j\) and \(e_f\) such that\\
+- \(j < k\) - \(\unfold \gamma(e) \mapsto^j e_f\)\\
+- \(\irred(e_f)\)
+
+We need to show \(\exists e_f'\) such that\\
+- \(\unfold \gamma'(e') \mapsto^* e_f'\) -
+\((e_f, e_f') \in \mathcal{V}_{k-j}[\tau[\mu \alpha.\tau/\alpha]]\)
+
+By the operational semantics, we know \(\exists j_0\) and \(e_{f_0}\)
+such that\\
+- \(\gamma(e) \mapsto^{j_0} e_{f_0}\) - \(\irred(e_{f_0})\)
+
+Instantiate \(\Gamma \vdash e \leq_e e' : E^\delta \mu \alpha.\tau\)
+with \(k, \gamma\) and \(\gamma'\).\\
+Note that\\
+- \(k \geq 0\) - \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+
+Hence, we have
+\((\gamma(e), \gamma(e')) \in \mathcal{E}_k[E^\delta \mu \alpha.\tau]\).\\
+There are two cases to consider : \(\delta = \circ\) and
+\(\delta = \bullet\).\\
++ \textbf{Case \(\delta = \circ :\)}\\
+In this case, we have
+\((\gamma(e), \gamma(e')) \in \mathcal{E}_k[E^\circ \mu \alpha.\tau]\).\\
+Instantiate this with \(j_0\) and \(e_{f_0}\). Note that\\
+- \(j_0 \leq k\) - \(\gamma(e) \mapsto^{j_0} e_{f_0}\)
+
+\begin{verbatim}
+   Also note that there exists $e_{f_0}'$ such that
+    - $\gamma'(e') \mapsto^* e_{f_0}'$
+    - $(e_{f_0}, e_{f_0}') \in \mathcal{V}_{k-j_0}[\mu \alpha.\tau]$
+
+   For convenience, let $e_{f_0} = \fold v_0$ and $e_{f_0}' = \fold v_0'$.
+   Note that $\gamma(\unfold e) \equiv \unfold \gamma(e)$
+   $\qquad \qquad \qquad \qquad \quad \mapsto^{j_0} \unfold e_{f_0}$
+   $\qquad \qquad \qquad \qquad \quad \equiv \unfold (\fold v_0)$
+   $\qquad \qquad \qquad \qquad \quad \mapsto^1 v_0$
+   Since $v_0$ is a value, $j = j_0 + 1$ and $e_f = v_0$.
+   Let $e_f' = v_0'$.
+   We are required to show
+    + $\unfold \gamma'(e') \mapsto^* v_0'$
+      - which follows from $\unfold \gamma'(e') \mapsto^* \unfold e_{f_0}'$
+      $\qquad \qquad \qquad \qquad \qquad \qquad \quad \equiv \unfold (\fold v_0')$
+      $\qquad \qquad \qquad \qquad \qquad \qquad \quad \mapsto^1 v_0'$
+   + $(v_0, v_0') \in \mathcal{V}_{k-j}[\tau[\mu \alpha.\tau/\alpha]]$
+     - which follows from the following:
+       From $(e_{f_0}, e_{f_0}') \equiv (\fold v_0, \fold v_0') \in \mathcal{V}_{k-j_0}[\mu \alpha.\tau]$, we have
+       + $\cdot \vdash \fold v_0' : \mu \alpha.\tau$
+       + $\forall i < k-j_0. (v_0,v_0') \in \mathcal{V}_i[\tau[\mu \alpha.\tau/\alpha]]$
+
+         Since $k-j < k-j_0$, $(v_0, v_0') \in \mathcal{V}_{k-j}[\tau[\mu \alpha.\tau/\alpha]]$.
+ + **Case $\delta = \bullet :$**
+   In this case, we have $(\gamma(e), \gamma(e')) \in \mathcal{E}_k[E^\bullet \mu \alpha.\tau]$.
+   Instantiate this with $j_0$ and $e_{f_0}$.
+   Note that
+    - $j_0 \leq k$
+    - $\gamma(e) \mapsto^{j_0} e_{f_0}$
+
+   Hence, we have $e_{f_0}'$ such that
+   - $\gamma'(e') \mapsto^* e_{f_0}'$
+   - $(e_{f_0}, e_{f_0}') \in \mathcal{V}_{k-j_0}[\mu \alpha.\tau]$
+
+   For convenience, let $e_{f_0} = \fold v_0$ and $e_{f_0}' = \fold v_0'$.
+ Note that $\gamma(\unfold e) \equiv \unfold \gamma(e)$
+ $\qquad \qquad \qquad \qquad \quad \mapsto^{j_0} \unfold e_{f_0}$
+ $\qquad \qquad \qquad \qquad \quad \equiv \unfold (\fold v_0)$
+ $\qquad \qquad \qquad \qquad \quad \mapsto^1 v_0$
+ Since $v_0$ is a value, $j = j_0 + 1$ and $e_f = v_0$.
+ Let $e_f' = v_0'$.
+ We are required to show
+   + $\unfold \gamma'(e') \mapsto^* v_0'$
+     - which follows from $\unfold \gamma'(e') \mapsto^* \unfold e_{f_0}'$
+     $\qquad \qquad \qquad \qquad \qquad \qquad \quad \equiv \unfold (\fold v_0')$
+     $\qquad \qquad \qquad \qquad \qquad \qquad \quad \mapsto^1 v_0'$
+   + $(v_0, v_0') \in \mathcal{V}_{k-j}[\tau[\mu \alpha.\tau/\alpha]]$
+     - which follows from the following:
+     From $(e_{f_0}, e_{f_0}') \equiv (\fold v_0, \fold v_0') \in \mathcal{V}_{k-j_0}[\mu \alpha.\tau]$, we have
+       + $\cdot \vdash \fold v_0' : \mu \alpha.\tau$
+       + $\forall i < k-j_0. (v_0,v_0') \in \mathcal{V}_i[\tau[\mu \alpha.\tau/\alpha]]$
+
+        Since $k-j < k-j_0$, $(v_0, v_0') \in \mathcal{V}_{k-j}[\tau[\mu \alpha.\tau/\alpha]]$.
+\end{verbatim}
+
+\subsubsection{Lemma {[}Substitutivity{]}}\label{lemma-substitutivity}
+
+If \( \Gamma \vdash v \leq_v v' : \tau\) and
+\( \Gamma,x:\tau \vdash e \leq_e e': E^\delta \tau'\), then
+\( \Gamma \vdash e[v/x] \leq_e e'[v'/x] : E^\delta \tau'\).
+
+\emph{Proof.}\\
+The proof is in two parts.\\
+1. We are required to show \(\Gamma \vdash e[v/x] : E^\delta \tau'\) and
+\(\Gamma \vdash e'[v'/x] : E^\delta \tau'\), which follow respectively
+from applying the {[}Substitution{]} lemma to + \(\Gamma \vdash v:\tau\)
+and \(\Gamma,x:\tau \vdash e:E^\delta \tau'\)\\
++ \(\Gamma \vdash v':\tau\) and
+\(\Gamma,x:\tau \vdash e':E^\delta \tau'\)\\
+- both of which follow from \(\Gamma \vdash v \leq_v v' : \tau\) and
+\(\Gamma,x:\tau \vdash e \leq_e e' : E^\delta \tau'\)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Consider arbitrary \(k, \gamma\), \(\gamma'\) such that
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \(k \geq 0\)
+  \item
+    \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+  \end{itemize}
+
+  We must show
+  \(\gamma(e[v/x], \gamma'(e'[v'/x])) \in \mathcal{E}_k[E^\delta \tau']\).\\
+  There are two cases to consider:
+
+  \begin{itemize}
+  \item
+    \textbf{Case \(\delta = \circ :\)}\\
+    In this case, we are required to show
+    \((\gamma(e[v/x], \gamma'(e'[v'/x])) \in \mathcal{E}_k[E^\circ \tau']\).\\
+    In order to do so, we need to show \(\exists j, e_f\) and \(e_f'\)
+    such that
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \(j \leq k\)
+    \item
+      \(\gamma(e[v/x]) \mapsto^j e_f\)
+    \item
+      \(\gamma'(e'[v/x]) \mapsto^* e_f'\)
+    \item
+      \((e_f, e_f') \in \mathcal{V}_{k-j}[\tau']\)
+    \end{itemize}
+
+    Instantiate \(\Gamma \vdash v \leq_v v' : \tau\) with \(k, \gamma\),
+    and \(\gamma'\).\\
+    Note that
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \(k \geq 0\)
+    \item
+      \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)
+    \end{itemize}
+
+    Hence, we have
+    \((\gamma(v), \gamma'(v')) \in \mathcal{V}_k[\tau]\).\\
+    Instantiate \(\Gamma,x:\tau \vdash e \leq_e e' : E^\circ \tau'\)
+    with \(k, \gamma[x \mapsto \gamma(v)]\), and
+    \(\gamma'[x \mapsto \gamma'(v')]\).\\
+    Note that
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \(k \geq 0\)
+    \item
+      \((\gamma[x \mapsto \gamma(v)], \gamma'[x \mapsto \gamma'(v')]) \in \mathcal{G}_k[\Gamma,x:\tau]\)
+      which follow from
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \((\gamma, \gamma') \in \mathcal{G}_k[\Gamma]\)\\
+      \item
+        \((\gamma(v), \gamma'(v')) \in \mathcal{V}_k[\tau]\)
+      \end{itemize}
+    \end{itemize}
+
+    Hence, we have
+    \((\gamma[x \mapsto \gamma(v)](e), \gamma'[x \mapsto \gamma'(v')](e)) \in \mathcal{E}_k[E^\circ \tau']\)\\
+    \(\qquad \qquad \quad \equiv (\gamma(e[\gamma(v)/x]), \gamma'(e'[\gamma'(v')/x])) \in \mathcal{E}_k[E^\circ \tau']\)\\
+    \(\qquad \qquad \quad \equiv (\gamma(e[v/x]), \gamma'(e'[v'/x])) \in \mathcal{E}_k[E^\circ \tau']\).
+  \item
+    \textbf{Case \(\delta = \bullet :\)}\\
+    By the {[}Pure implies impure-closed{]} lemma applied to the pure
+    case.
+  \end{itemize}
+\end{enumerate}
+\end{document}
